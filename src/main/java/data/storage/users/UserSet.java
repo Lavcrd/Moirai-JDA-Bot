@@ -13,8 +13,6 @@ public class UserSet implements Serializable {
     private String discriminator;
     private int balance;
     LocalDateTime stealProtection;
-    LocalDateTime fightProtection;
-    LocalDateTime pingProtection;
     LocalDateTime gainLimiter;
 
 

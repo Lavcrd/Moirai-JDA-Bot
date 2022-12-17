@@ -7,5 +7,6 @@ Only viable for private use with tiny amount of servers.
 - No lavalink. (only lavaplayer)
 - Created with purpose of learning basics of core java, git and JDA.
 - This version is butchered and censored for public view.
+- Not properly tested :(.
 
 Saved here as memento for my future self.
