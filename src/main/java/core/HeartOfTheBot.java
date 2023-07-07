@@ -2,6 +2,7 @@ package core;
 
 import data.configuration.Configuration;
 import data.storage.guilds.GuildSet;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import vitals.handler.Commands;
 import core.events.*;
 import net.dv8tion.jda.api.JDA;
@@ -36,6 +37,7 @@ public class HeartOfTheBot {
 
         JDA jda = JDABuilder.createDefault(Configuration.getToken())
                 .enableCache(CacheFlag.VOICE_STATE)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .setActivity(Activity.watching("offtopic"))
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .addEventListeners(new CommandEvents())

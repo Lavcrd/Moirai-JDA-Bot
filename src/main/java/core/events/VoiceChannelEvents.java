@@ -3,15 +3,11 @@ package core.events;
 import data.storage.guilds.GuildSet;
 import data.storage.users.UserSet;
 import data.storage.users.UserSetRetrieve;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import vitals.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import javax.annotation.Nonnull;
 
 import static data.configuration.Configuration.*;
 
@@ -19,7 +15,17 @@ import static data.storage.guilds.GuildSetRetrieve.getGuildSet;
 
 public class VoiceChannelEvents extends ListenerAdapter {
     @Override
-    public void onGuildVoiceJoin(@Nonnull GuildVoiceJoinEvent event) {
+    public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
+        if (event.getOldValue() == null) {
+            onGuildVoiceJoin(event);
+        } else if (event.getNewValue() == null) {
+            onGuildVoiceLeave(event);
+        } else {
+            onGuildVoiceMove(event);
+        }
+    }
+
+    public void onGuildVoiceJoin(GuildVoiceUpdateEvent event) {
         GuildSet guildSet = getGuildSet(event.getGuild().getId());
         UserSet userSet = UserSetRetrieve.getUserSet(guildSet, event.getMember().getUser());
         userSet.addBalance(1, true);
@@ -49,8 +55,7 @@ public class VoiceChannelEvents extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onGuildVoiceMove(@Nonnull GuildVoiceMoveEvent event) {
+    public void onGuildVoiceMove(GuildVoiceUpdateEvent event) {
         GuildSet guildSet = getGuildSet(event.getGuild().getId());
         UserSet userSet = UserSetRetrieve.getUserSet(guildSet, event.getMember().getUser());
         userSet.addBalance(1, true);
@@ -89,8 +94,7 @@ public class VoiceChannelEvents extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onGuildVoiceLeave(@Nonnull GuildVoiceLeaveEvent event) {
+    public void onGuildVoiceLeave(GuildVoiceUpdateEvent event) {
         GuildSet guildSet = getGuildSet(event.getGuild().getId());
         UserSet userSet = UserSetRetrieve.getUserSet(guildSet, event.getMember().getUser());
         userSet.addBalance(1, true);

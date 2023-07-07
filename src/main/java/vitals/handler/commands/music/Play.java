@@ -3,11 +3,11 @@ package vitals.handler.commands.music;
 import data.storage.guilds.GuildSet;
 import data.storage.users.UserSet;
 import data.storage.users.UserSetRetrieve;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import vitals.handler.Commands;
 import vitals.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.managers.*;
 
 import java.awt.*;
@@ -28,10 +28,10 @@ public class Play implements Commands {
         final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
         if (memberChannel != connectedChannel && connectedChannel != null) {
-            event.getTextChannel().sendMessageEmbeds(eb.setDescription("You need to be together with bot on voice channel!").build()).queue();
+            event.getMessage().getChannel().sendMessageEmbeds(eb.setDescription("You need to be together with bot on voice channel!").build()).queue();
             return;
         } else if (memberChannel == null) {
-            event.getTextChannel().sendMessageEmbeds(eb.setDescription("You need to be on voice channel to run this command!").build()).queue();
+            event.getMessage().getChannel().sendMessageEmbeds(eb.setDescription("You need to be on voice channel to run this command!").build()).queue();
             return;
         }
 
@@ -48,7 +48,7 @@ public class Play implements Commands {
             audioManager.getGuild().getAudioManager().setSelfDeafened(true);
         }
 
-        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+        PlayerManager.getINSTANCE().loadAndPlay(event.getMessage().getChannel().asTextChannel(), link);
 
         UserSet user = UserSetRetrieve.getUserSet(guildSet, event.getAuthor());
         user.addBalance(4, true);

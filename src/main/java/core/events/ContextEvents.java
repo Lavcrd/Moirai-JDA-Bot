@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import vitals.handler.Contexts;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
 import static data.storage.guilds.GuildSetRetrieve.getGuildSet;
@@ -16,7 +15,7 @@ import static data.storage.guilds.GuildSetRetrieve.getGuildSet;
 
 public class ContextEvents extends ListenerAdapter {
     @Override
-    public void onUserContextInteraction(@Nonnull UserContextInteractionEvent event) {
+    public void onUserContextInteraction(UserContextInteractionEvent event) {
         if (Objects.requireNonNull(event.getMember()).getUser().isBot()) return;
 
         GuildSet guildSet = getGuildSet(Objects.requireNonNull(event.getGuild()).getId());
@@ -29,7 +28,7 @@ public class ContextEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildJoin(@Nonnull GuildJoinEvent event) {
+    public void onGuildJoin(GuildJoinEvent event) {
         event.getGuild().updateCommands().addCommands(
                 net.dv8tion.jda.api.interactions.commands.build.Commands.context(Command.Type.USER, "1. Status"),
                 net.dv8tion.jda.api.interactions.commands.build.Commands.context(Command.Type.USER, "2. Throw coins"),

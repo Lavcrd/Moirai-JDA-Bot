@@ -3,10 +3,10 @@ package vitals.handler.commands.music;
 import data.storage.guilds.GuildSet;
 import data.storage.users.UserSet;
 import data.storage.users.UserSetRetrieve;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import vitals.handler.Commands;
 import vitals.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class Leave implements Commands {
         if (connectedChannel == null) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(Color.BLACK).setDescription("I'm not in the voice channel :c");
-            event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+            event.getMessage().getChannel().sendMessageEmbeds(eb.build()).queue();
         } else {
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.audioPlayer.destroy();
             event.getGuild().getAudioManager().closeAudioConnection();
