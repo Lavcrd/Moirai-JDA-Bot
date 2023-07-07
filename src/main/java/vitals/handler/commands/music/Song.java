@@ -28,7 +28,7 @@ public class Song implements Commands {
 
         long duration = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).audioPlayer.getPlayingTrack().getInfo().length;
         String decimalsDuration = String.valueOf(Math.floor(duration%60000)).substring(0,2);
-        String durationFix = Math.floorDiv(duration, 60000) + ":" + decimalsDuration;
+        String durationFix = Math.floorDiv(duration, 60000L) + ":" + decimalsDuration;
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(Color.BLACK).setTitle("Current track: ")
@@ -41,7 +41,7 @@ public class Song implements Commands {
                 .appendDescription("\nLength: ")
                 .appendDescription(durationFix);
 
-        event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+        event.getMessage().getChannel().sendMessageEmbeds(eb.build()).queue();
 
         UserSet user = UserSetRetrieve.getUserSet(guildSet, event.getAuthor());
         user.addBalance(2, true);
